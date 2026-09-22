@@ -3,12 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>nightcommit</title>
 </head>
 <body>
+    
+    <div class="ghform">
+        <p id="texttemporary"></p>
     <input id="ghname" type="text" placeholder="enter the username u wanna stalk">
-    <input id="requestbutton" type="button" value="get their commits" onclick="getuser()">
-    <p id="texttemporary"></p>
+    <input id="reqrepo" type="button" value="get their repos" onclick="getuser()">
+    <input id="ghrepo" type="text" placeholder="enter the repo u wanna get history of">
+    <input id="reqcommithis" type="button" value="get their commits" onclick="getcommits()">
+    </div>
+    
     <script src="script.js"></script>
 </body>
 </html>
