@@ -59,16 +59,33 @@ async function getcommits(){
 
 
 async function mastervader(){
+    document.getElementById("mainprogress").classList.remove("hidden");
     infocards.innerHTML=""
     document.getElementById("texttemporary").innerHTML="loading pls wait";
     await getuser();
     await getcommits();
+    document.getElementById("mainprogress").value=arraysummer(nightcommits);
+        document.getElementById("mainprogress").max=arraysummer(noofcommits);
+
     document.getElementById("texttemporary").innerHTML=`${arraysummer(noofcommits)} total, ${arraysummer(nightcommits)} as a nightowl xD`;
     console.log(reponames, noofcommits, nightcommits)
 
     infocards=document.getElementById("infocards")
     for (let i=0; i<reponames.length; i+=1){
-        infocards.innerHTML+=`<div class="infocard"><h2>${reponames[i]}</h2><p>${noofcommits[i]} total, ${nightcommits[i]} commits as a nightowl</p></div>`
+        var msg=""
+        var clr="#00FF29";
+        if (nightcommits[i]==0){
+            msg="dissapointing"
+            clr="red"
+        }else if (nightcommits[i]<noofcommits[i]/4){
+            msg="at least we are somewhere" 
+            clr="yellow"
+        }else if (nightcommits[i]<noofcommits[i]/2){
+            msg="now we talkin"
+        }else{
+            msg="ur great"
+        } 
+        infocards.innerHTML+=`<div class="infocard"><progress class="infocardprogress" value=${nightcommits[i]} max=${noofcommits[i]}>32%</progress><h2>${reponames[i]}</h2><p>${noofcommits[i]} total, ${nightcommits[i]} commits as a nightowl</p><br><p style="color:${clr}">${msg}</p></div>`
     }
 
 }
