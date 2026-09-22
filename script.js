@@ -12,31 +12,29 @@ function arraysummer(array){
     return sum;
 }
 
-function getuser() {
+async function getuser() {
     reponames=[]
     username=document.getElementById("ghname").value;
-    fetch(`https://api.github.com/users/${username}/repos`)
-    .then(response => response.json())
-    .then(data => {
+    var response= await fetch(`https://api.github.com/users/${username}/repos`)
+    var data= await response.json()
+    
         var jsondata=JSON.parse(JSON.stringify(data));
         var noofrepos=jsondata.length
         for (let i=0; i<noofrepos;i+=1){
             reponames.push(jsondata[i].name);
 
         }
-        document.getElementById("texttemporary").innerHTML=reponames;
-    })
+    
 }
 
-function getcommits(){
+async function getcommits(){
     noofcommits=[]
     nightcommits=[]
-    for (let i=0; i<reponames.length;i+=1){
 
-        fetch(`https://api.github.com/repos/${username}/${reponames[i]}/commits`)
-        .then(response => response.json())
-        .then(data => {
-        jsondata=JSON.parse(JSON.stringify(data));
+     await Promise.all(reponames.map(async (repoName) => {
+        const response = await fetch(`https://api.github.com/repos/${username}/${repoName}/commits`);
+        const data = await response.json();
+        jsondata = JSON.parse(JSON.stringify(data));
         var localnoofcommits=jsondata.length
         var localnightcommits=0
         noofcommits.push(localnoofcommits);
@@ -46,17 +44,19 @@ function getcommits(){
                 localnightcommits+=1;
             }
             
-        }
         nightcommits.push(localnightcommits);
-        document.getElementById("texttemporary").innerHTML=`${arraysummer(noofcommits)} total, ${arraysummer(nightcommits)} as a nightowl xD`;
-        console.log(reponames, noofcommits, nightcommits)
+        
 
              
-    })
-    }
-    
-    
+        }}))}
 
-    
+
+async function mastervader(){
+    document.getElementById("texttemporary").innerHTML="loading pls wait";
+    await getuser();
+    await getcommits();
+    document.getElementById("texttemporary").innerHTML=`${arraysummer(noofcommits)} total, ${arraysummer(nightcommits)} as a nightowl xD`;
+    console.log(reponames, noofcommits, nightcommits)
+
 }
 
