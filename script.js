@@ -37,18 +37,21 @@ async function getcommits(){
         jsondata = JSON.parse(JSON.stringify(data));
         var localnoofcommits=jsondata.length
         var localnightcommits=0
-        noofcommits.push(localnoofcommits);
+        
         
         for (let i=0; i<localnoofcommits;i+=1){
             if (+jsondata[i].commit.author.date.match(/T(.*)Z/)[1].slice(0,2)<6){
                 localnightcommits+=1;
             }
             
-        nightcommits.push(localnightcommits);
+        
         
 
              
-        }}))}
+        }
+        noofcommits.push(localnoofcommits);
+        nightcommits.push(localnightcommits);
+    }))}
 
 
 async function mastervader(){
