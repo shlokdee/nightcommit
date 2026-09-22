@@ -54,12 +54,22 @@ async function getcommits(){
     }))}
 
 
+
+
+
+
 async function mastervader(){
+    infocards.innerHTML=""
     document.getElementById("texttemporary").innerHTML="loading pls wait";
     await getuser();
     await getcommits();
     document.getElementById("texttemporary").innerHTML=`${arraysummer(noofcommits)} total, ${arraysummer(nightcommits)} as a nightowl xD`;
     console.log(reponames, noofcommits, nightcommits)
+
+    infocards=document.getElementById("infocards")
+    for (let i=0; i<reponames.length; i+=1){
+        infocards.innerHTML+=`<div class="infocard"><h2>${reponames[i]}</h2><p>${noofcommits[i]} total, ${nightcommits[i]} commits as a nightowl</p></div>`
+    }
 
 }
 
