@@ -1,3 +1,7 @@
+:root{
+    --theme_color:#00FF29;
+}
+
 body{
     background-color: black;
     color: #00FF29;
