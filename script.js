@@ -15,7 +15,7 @@ function arraysummer(array){
 async function getuser() {
     reponames=[]
     username=document.getElementById("ghname").value;
-    var response= await fetch(`https://api.github.com/users/${username}/repos`)
+    var response= await fetch(`https://github-proxy.shlokdee.workers.dev/users/${username}/repos`)
     var data= await response.json()
     
         var jsondata=JSON.parse(JSON.stringify(data));
@@ -32,7 +32,13 @@ async function getcommits(){
     nightcommits=[]
 
      await Promise.all(reponames.map(async (repoName) => {
-        const response = await fetch(`https://api.github.com/repos/${username}/${repoName}/commits`);
+        const response = await fetch(`https://github-proxy.shlokdee.workers.dev/repos/${username}/${repoName}/commits`);
+
+        if (!response.ok){
+            noofcommits.push(0);
+            nightcommits.push(0)
+            return;
+        }
         const data = await response.json();
         jsondata = JSON.parse(JSON.stringify(data));
         var localnoofcommits=jsondata.length
